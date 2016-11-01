@@ -29,11 +29,16 @@ public class Main {
         if (arguments.has("log")) {
             File jarFile = (File) arguments.valueOf("log");
             File logFile = new File(System.getProperty("user.dir"), jarFile.getName().concat("" +
-                    ".log"));
+                    ".binarylog"));
             System.out.println("Logging data...");
             JarDataGenerator dataGen = new JarDataGenerator(jarFile);
             dataGen.write(logFile);
             System.out.println("Data logged to " + logFile.getName() + "!");
+            System.out.println("Translating data to UTF log...");
+            File utfLog = new File(System.getProperty("user.dir"), jarFile.getName().concat("" +
+                    ".utf8log"));
+            JarDataGenerator.translateLog(logFile, utfLog);
+            System.out.println("Translated data to " + utfLog.getName() + "!");
             return;
         }
         if (arguments.has("debug")) {
@@ -58,24 +63,58 @@ public class Main {
             System.out.println("Original file set doesn't exist.");
             return;
         }
+        boolean isLog1 = false;
+        if (!original.getName().endsWith(".jar")) {
+            if (!original.getName().endsWith(".log")) {
+                System.out.println("Original file doesn't have supported file type.");
+                return;
+            } else if (original.getName().endsWith(".log")) {
+                isLog1 = true;
+            }
+        }
         File secondary = (File) arguments.valueOf("new");
         if (!secondary.exists()) {
             System.out.println("Secondary file set doesn't exist.");
             return;
         }
-        JarComparator comparator = new JarComparator(original, secondary);
+        boolean isLog2 = false;
+        if (!original.getName().endsWith(".jar")) {
+            if (!original.getName().endsWith(".log")) {
+                System.out.println("Secondary file doesn't have supported file type.");
+                return;
+            } else if (original.getName().endsWith(".log")) {
+                isLog2 = true;
+            }
+        }
         System.out.println("WARN: This version of Fernfertilizer only supports SRG mappings.");
         File srgFile = new File(polishName(secondary.getName()) + ".srg");
         System.out.println("NOTE: SRG mappings will be written to " + srgFile.getName() +
                 "!");
         long startingMappingTime = System.currentTimeMillis();
-        SourceGenerator generator = SourceGenerator.fromJarComparator(comparator);
-        generator.writeTo(new SRGWriter(srgFile));
-        System.out.println("Mappings have been written to: " + srgFile.getName());
-        long finishedTime = System.currentTimeMillis() - startingMappingTime;
-        long seconds = finishedTime / 1000;
-        System.out.println("Finished in " + finishedTime + " milliseconds. (" + seconds + " " +
-                "seconds)");
+        if (!isLog1 && !isLog2) {
+            JarComparator comparator = new JarComparator(original, secondary);
+            SourceGenerator generator = SourceGenerator.fromJarComparator(comparator);
+            generator.writeTo(new SRGWriter(srgFile));
+            System.out.println("Mappings have been written to: " + srgFile.getName());
+            long finishedTime = System.currentTimeMillis() - startingMappingTime;
+            long seconds = finishedTime / 1000;
+            System.out.println("Finished in " + finishedTime + " milliseconds. (" + seconds + " " +
+                    "seconds)");
+            return;
+        }
+        if (isLog1 && isLog2) {
+            DataFileComparator fileComparator = new DataFileComparator(original, secondary);
+            SourceGenerator.DataGenerator sourceGenerator = SourceGenerator.DataGenerator.fromDataComparator
+                    (fileComparator);
+            sourceGenerator.writeTo(new SRGWriter(srgFile));
+            System.out.println("Mappings have been written to: " + srgFile.getName());
+            long finishedTime = System.currentTimeMillis() - startingMappingTime;
+            long seconds = finishedTime / 1000;
+            System.out.println("Finished in " + finishedTime + " milliseconds. (" + seconds + " " +
+                    "seconds)");
+            return;
+        }
+        System.out.println("Specified file types doesn't have a handler.");
     }
 
 }

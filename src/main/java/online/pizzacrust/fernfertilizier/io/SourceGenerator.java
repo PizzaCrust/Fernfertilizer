@@ -5,6 +5,7 @@ import javassist.CtClass;
 import java.util.Map;
 
 import online.pizzacrust.fernfertilizier.ClassGroupComparator;
+import online.pizzacrust.fernfertilizier.DataFileComparator;
 import online.pizzacrust.fernfertilizier.JarComparator;
 
 /**
@@ -57,6 +58,27 @@ public class SourceGenerator
             writer.write(entry.getKey().getName(), entry.getValue().getName());
         }
         writer.flush();
+    }
+
+    public static class DataGenerator {
+
+        private Map<JarData.ClassConstantPool, JarData.ClassConstantPool> mappings;
+
+        public DataGenerator(Map<JarData.ClassConstantPool, JarData.ClassConstantPool> mappings) {
+            this.mappings = mappings;
+        }
+
+        public static DataGenerator fromDataComparator(DataFileComparator dfc) {
+            return new DataGenerator(dfc.generateMappings());
+        }
+
+        public void writeTo(MappingsWriter writer) {
+            for (Map.Entry<JarData.ClassConstantPool, JarData.ClassConstantPool> entry : mappings.entrySet()) {
+                writer.write(entry.getKey().className, entry.getValue().className);
+            }
+            writer.flush();
+        }
+
     }
 
 }

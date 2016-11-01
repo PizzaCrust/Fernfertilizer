@@ -64,7 +64,7 @@ public class JarData
         try {
             FileInputStream fis = new FileInputStream(target);
             ObjectInputStream ois = new ObjectInputStream(fis);
-            List<ClassConstantPool> classConstants = (List<ClassConstantPool>) ois;
+            List<ClassConstantPool> classConstants = (List<ClassConstantPool>) ois.readObject();
             ois.close();
             fis.close();
             constants = classConstants;
