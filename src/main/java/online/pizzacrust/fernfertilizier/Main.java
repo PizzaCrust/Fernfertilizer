@@ -65,7 +65,7 @@ public class Main {
         }
         boolean isLog1 = false;
         if (!original.getName().endsWith(".jar")) {
-            if (!original.getName().endsWith(".log")) {
+            if (!original.getName().endsWith(".binarylog")) {
                 System.out.println("Original file doesn't have supported file type.");
                 return;
             } else if (original.getName().endsWith(".log")) {
