@@ -15,6 +15,8 @@ public class Main {
 
     public static void main(String... args) {
         OptionParser parser = new OptionParser();
+        parser.acceptsAll(asList("log", "l"), "Logs statistics of a JAR.").withRequiredArg()
+                .ofType(File.class).forHelp();
         parser.acceptsAll(asList("debug", "d"), "Launches the DebugComparator.").forHelp();
         parser.acceptsAll(asList("help", "?", "h"), "Launches the help menu.").forHelp();
         parser.acceptsAll(asList("passgrade", "pg"), "Set the passing grade for mappings.")
@@ -24,6 +26,16 @@ public class Main {
         parser.acceptsAll(asList("new", "n", "second", "s", "2"), "Sets the SECONDARY (usually " +
                 "obf updated) JAR.").withRequiredArg().ofType(File.class).required();
         OptionSet arguments = parser.parse(args);
+        if (arguments.has("log")) {
+            File jarFile = (File) arguments.valueOf("log");
+            File logFile = new File(System.getProperty("user.dir"), jarFile.getName().concat("" +
+                    ".log"));
+            System.out.println("Logging data...");
+            JarDataGenerator dataGen = new JarDataGenerator(jarFile);
+            dataGen.write(logFile);
+            System.out.println("Data logged to " + logFile.getName() + "!");
+            return;
+        }
         if (arguments.has("debug")) {
             System.out.println("Debug mode enabled.");
             DebugComparator.main();
