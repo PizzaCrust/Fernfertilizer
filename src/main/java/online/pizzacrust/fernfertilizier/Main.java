@@ -68,7 +68,7 @@ public class Main {
             if (!original.getName().endsWith(".binarylog")) {
                 System.out.println("Original file doesn't have supported file type.");
                 return;
-            } else if (original.getName().endsWith(".log")) {
+            } else if (original.getName().endsWith(".binarylog")) {
                 isLog1 = true;
             }
         }
@@ -79,10 +79,10 @@ public class Main {
         }
         boolean isLog2 = false;
         if (!original.getName().endsWith(".jar")) {
-            if (!original.getName().endsWith(".log")) {
+            if (!original.getName().endsWith(".binarylog")) {
                 System.out.println("Secondary file doesn't have supported file type.");
                 return;
-            } else if (original.getName().endsWith(".log")) {
+            } else if (original.getName().endsWith(".binarylog")) {
                 isLog2 = true;
             }
         }
