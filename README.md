@@ -18,5 +18,4 @@ Option (* = required)                 Description
 -l, --log <File>                      Logs statistics of a JAR.             
 --passgrade, --pg <Integer>           Set the passing grade for mappings. 
 ```
-</br>
 Example: ```java -jar Fernfertilizier-1.0-SNAPSHOT.jar -1 minecraft-1.0.jar -2 minecraft-1.1.jar```
