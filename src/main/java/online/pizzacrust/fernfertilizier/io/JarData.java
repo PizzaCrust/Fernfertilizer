@@ -23,6 +23,17 @@ public class JarData
             this.integerConstants = integers;
         }
 
+        @Override
+        public boolean equals(Object object) {
+            if (object instanceof JarData.ClassConstantPool) {
+                JarData.ClassConstantPool other = (ClassConstantPool) object;
+                if (other.className.equals(this.className)) {
+                    return true;
+                }
+            }
+            return false;
+        }
+
     }
 
     /**
