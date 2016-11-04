@@ -27,7 +27,7 @@ public class DataGroupComparator {
         ArrayList<JarData.ClassConstantPool> mappedAlready = new ArrayList<>();
         for (JarData.ClassConstantPool newClass : newerClasses) {
             for (JarData.ClassConstantPool oldClass : originalClasses) {
-                DataComparator classComparator = new DataComparator(newClass, oldClass);
+                ClassComparator classComparator = new ClassComparator(newClass, oldClass);
                 if (!mappedAlready.contains(oldClass)) {
                     if (classComparator.compare(MINIMUM_PERCENTAGE)) {
                         System.out.println("MAPPING DETECTED: " + newClass.className + " to " +

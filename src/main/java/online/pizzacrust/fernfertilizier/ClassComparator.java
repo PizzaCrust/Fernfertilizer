@@ -14,14 +14,14 @@ public class ClassComparator
     /**
      * The newer ctclass.
      */
-    private final CtClass newer;
+    private final ConstantProvider newer;
 
     /**
      * The original ctclass.
      */
-    private final CtClass original;
+    private final ConstantProvider original;
 
-    public ClassComparator(CtClass newer, CtClass original) {
+    public ClassComparator(ConstantProvider newer, ConstantProvider original) {
         this.newer = newer;
         this.original = original;
     }
@@ -31,10 +31,10 @@ public class ClassComparator
      * @return
      */
     public boolean compare(int passingPercentage) {
-        String[] stringsNewer = ConstantUtil.getStrings(newer);
-        Integer[] integersNewer = ConstantUtil.getIntegers(newer);
-        String[] stringsOlder = ConstantUtil.getStrings(original);
-        Integer[] integersOlder = ConstantUtil.getIntegers(original);
+        String[] stringsNewer   = newer.stringConstants();
+        Integer[] integersNewer = newer.integerConstants();
+        String[] stringsOlder   = original.stringConstants();
+        Integer[] integersOlder = original.integerConstants();
         PercentageComparator<String> stringComparator = new PercentageComparator<String>();
         stringComparator.setStandard(stringsOlder);
         stringComparator.setNewer(stringsNewer);

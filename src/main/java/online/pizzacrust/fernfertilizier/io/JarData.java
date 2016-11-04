@@ -9,10 +9,13 @@ import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.List;
 
+import online.pizzacrust.fernfertilizier.ConstantProvider;
+
 public class JarData
 {
 
-    public static class ClassConstantPool implements Serializable {
+    public static class ClassConstantPool extends ConstantProvider.BaseConstantProvider
+            implements Serializable {
         public final String className;
         public final List<String> stringConstants;
         public final List<Integer> integerConstants;
@@ -32,6 +35,16 @@ public class JarData
                 }
             }
             return false;
+        }
+
+        @Override
+        public String[] stringConstants() {
+            return this.stringConstants.toArray(new String[this.stringConstants.size()]);
+        }
+
+        @Override
+        public Integer[] integerConstants() {
+            return this.integerConstants.toArray(new Integer[this.integerConstants.size()]);
         }
 
     }

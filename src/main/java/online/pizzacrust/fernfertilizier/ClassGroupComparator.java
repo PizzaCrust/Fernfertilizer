@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import static online.pizzacrust.fernfertilizier.CtClassConstantWrapper.*;
+
 /**
  * Compares class files in a more massive scale.
  *
@@ -33,7 +35,8 @@ public class ClassGroupComparator
         ArrayList<CtClass> mappedAlready = new ArrayList<>();
         for (CtClass newClass : newerClasses) {
             for (CtClass oldClass : originalClasses) {
-                ClassComparator classComparator = new ClassComparator(newClass, oldClass);
+                ClassComparator classComparator = new ClassComparator(wrap(newClass), wrap
+                        (oldClass));
                 if (!mappedAlready.contains(oldClass)) {
                     if (classComparator.compare(MINIMUM_PERCENTAGE)) {
                         System.out.println("MAPPING DETECTED: " + newClass.getName() + " to " +
