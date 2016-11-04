@@ -87,7 +87,7 @@ public class Main {
             }
         }
         System.out.println("WARN: This version of Fernfertilizer only supports SRG mappings.");
-        File srgFile = new File(polishName(secondary.getName()) + ".csrg");
+        File srgFile = new File(polishName(secondary.getName()) + ".srg");
         System.out.println("NOTE: SRG mappings will be written to " + srgFile.getName() +
                 "!");
         long startingMappingTime = System.currentTimeMillis();
