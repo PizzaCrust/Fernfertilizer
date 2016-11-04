@@ -32,7 +32,7 @@ public class SRGWriter implements MappingsWriter {
     public void write(String newName, String oldName) {
         if (!newName.startsWith(DEBUG_PACKAGE)) {
             if (!oldName.startsWith(DEBUG_PACKAGE)) {
-                cachedText.append("CL: ".concat(newName.replace('.', '/')).concat(" ").concat(oldName.replace('.', '/') + "\n"));
+                cachedText.append("".concat(newName.replace('.', '/')).concat(" ").concat(oldName.replace('.', '/') + "\n"));
             }
         }
     }

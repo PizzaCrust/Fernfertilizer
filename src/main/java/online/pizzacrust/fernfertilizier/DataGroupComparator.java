@@ -28,21 +28,21 @@ public class DataGroupComparator {
         for (JarData.ClassConstantPool newClass : newerClasses) {
             for (JarData.ClassConstantPool oldClass : originalClasses) {
                 ClassComparator classComparator = new ClassComparator(newClass, oldClass);
-                if (!mappedAlready.contains(oldClass)) {
                     if (classComparator.compare(MINIMUM_PERCENTAGE)) {
-                        System.out.println("MAPPING DETECTED: " + newClass.className + " to " +
-                                oldClass.className);
-                        map.put(newClass, oldClass);
-                        mappedAlready.add(oldClass);
+                        if (!mappedAlready.contains(oldClass)) {
+                            System.out.println("MAPPING DETECTED: " + newClass.className + " to " +
+                                    oldClass.className);
+                            map.put(newClass, oldClass);
+                            mappedAlready.add(oldClass);
+                        } else if (mappedAlready.contains(oldClass)) {
+                            System.out.println("CONFLICT DETECTED: " + newClass.className + " to " +
+                                    oldClass.className);
+                            break;
+                        }
                         break;
                     }
-                } else if (mappedAlready.contains(oldClass)) {
-                    System.out.println("CONFLICT DETECTED: " + newClass.className + " to " +
-                            oldClass.className);
-                    break;
                 }
             }
-        }
         return map;
     }
 
