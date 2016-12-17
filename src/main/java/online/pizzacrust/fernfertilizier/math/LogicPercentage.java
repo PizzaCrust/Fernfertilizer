@@ -14,4 +14,19 @@ public interface LogicPercentage {
 
     }
 
+    class BasicLogicPercentage extends BaseLogicPercentage {
+
+        private final int percentage;
+
+        public BasicLogicPercentage(Double primitive) {
+            this.percentage = primitive.intValue();
+        }
+
+        @Override
+        public int getPercentage() {
+            return percentage;
+        }
+
+    }
+
 }

@@ -51,6 +51,10 @@ public class LogicalJar {
             return theClass;
         }
 
+        public TypeFilter<?> getTypeFilter() {
+            return (TypeFilter<?>) this.getFilterClass();
+        }
+
     }
 
     public ClassFile[] filter(StandardFilter filter) {

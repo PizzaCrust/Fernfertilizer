@@ -26,6 +26,14 @@ public class ClassFile {
         this.jvmName = jvmName;
     }
 
+    public <TYPE> TYPE[] filter(TypeFilter<TYPE> filter) {
+        return filter.searchFiltered(this);
+    }
+
+    public <TYPE> TYPE[] filter(LogicalJar.StandardFilter filter) {
+        return (TYPE[]) filter(filter.getTypeFilter());
+    }
+
     public static ClassFile[] processClasses(JarFile jarFile) {
         List<ClassFile> classFileList = new ArrayList<>();
         Enumeration<JarEntry> enumeration = jarFile.entries();

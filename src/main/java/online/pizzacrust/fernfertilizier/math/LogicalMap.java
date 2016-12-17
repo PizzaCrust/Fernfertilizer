@@ -2,7 +2,7 @@ package online.pizzacrust.fernfertilizier.math;
 
 import java.util.HashMap;
 
-public class LogicPercentageMap<TYPE> {
+public class LogicalMap<TYPE> {
 
     private final HashMap<Enum, LegacyOptional<TYPE>> internalMap = new HashMap<>();
 
