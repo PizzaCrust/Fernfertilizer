@@ -2,6 +2,7 @@ package online.pizzacrust.fernfertilizier;
 
 import java.util.ArrayList;
 
+import online.pizzacrust.fernfertilizier.LogicalJar.StandardFilter;
 import online.pizzacrust.fernfertilizier.math.ArrayPercentageCalculator;
 import online.pizzacrust.fernfertilizier.math.LogicPercentage;
 import online.pizzacrust.fernfertilizier.math.LogicalMap;
@@ -27,15 +28,25 @@ public class ClassComparator {
     }
 
     public boolean compare() {
-        Integer[] newInts = newClass.filter(LogicalJar.StandardFilter.INTEGER);
-        Integer[] oldInts = oldClass.filter(LogicalJar.StandardFilter.INTEGER);
+        Integer[] newInts = newClass.filter(StandardFilter.INTEGER);
+        Integer[] oldInts = oldClass.filter(StandardFilter.INTEGER);
         if (newInts.length == 0) {
-            diffMap.setNotApplicable(LogicalJar.StandardFilter.INTEGER);
+            diffMap.setNotApplicable(StandardFilter.INTEGER);
         } else {
             ArrayPercentageCalculator<Integer> intCalculator = new ArrayPercentageCalculator<>
                     (toArray(newInts), toArray(oldInts));
-            diffMap.set(LogicalJar.StandardFilter.INTEGER, intCalculator.calculate());
+            diffMap.set(StandardFilter.INTEGER, intCalculator.calculate());
         }
+        Double[] newDoubles = newClass.filter(StandardFilter.DOUBLE);
+        Double[] oldDoubles = oldClass.filter(StandardFilter.DOUBLE);
+        if (newDoubles.length == 0) {
+            diffMap.setNotApplicable(StandardFilter.DOUBLE);
+        } else {
+            ArrayPercentageCalculator<Double> doubleCalculator = new ArrayPercentageCalculator<>
+                    (toArray(newDoubles), toArray(oldDoubles));
+            diffMap.set(StandardFilter.DOUBLE, doubleCalculator.calculate());
+        }
+
     }
 
 }
