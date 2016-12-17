@@ -23,7 +23,7 @@ public class ArrayPercentageCalculator<ARRAY_TYPE> {
                 }
             }
         }
-        int total = newList.size();
+        int total = oldList.size();
         double percentage = (((double) matches) / ((double) total)) * 100;
         return new LogicPercentage.BasicLogicPercentage(percentage);
     }
