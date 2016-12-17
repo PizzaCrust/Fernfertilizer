@@ -11,6 +11,8 @@ import online.pizzacrust.fernfertilizier.math.LogicalMap;
 
 public class ClassComparator {
 
+    public static int PASSING_PERCENTAGE = 60;
+
     private final ClassFile newClass;
     private final ClassFile oldClass;
 
@@ -74,6 +76,33 @@ public class ClassComparator {
         } else {
             diffMap.setNotApplicable(StandardFilter.STRING);
         }
+
+        int passes = 0;
+        if (diffMap.isApplicable(StandardFilter.INTEGER)) {
+            if (diffMap.get(StandardFilter.INTEGER).isHigherOrEqual(PASSING_PERCENTAGE)) {
+                passes++;
+            }
+        }
+        if (diffMap.isApplicable(StandardFilter.STRING)) {
+            if (diffMap.get(StandardFilter.STRING).isHigherOrEqual(PASSING_PERCENTAGE)) {
+                passes++;
+            }
+        }
+        if (diffMap.isApplicable(StandardFilter.DOUBLE)) {
+            if (diffMap.get(StandardFilter.DOUBLE).isHigherOrEqual(PASSING_PERCENTAGE)) {
+                passes++;
+            }
+        }
+        if (diffMap.isApplicable(StandardFilter.FLOAT)) {
+            if (diffMap.get(StandardFilter.FLOAT).isHigherOrEqual(PASSING_PERCENTAGE)) {
+                passes++;
+            }
+        }
+        Double percentage = ((double) passes / (double) 10) * (double) 100;
+        if (percentage.intValue() >= PASSING_PERCENTAGE) {
+            return true;
+        }
+        return false;
     }
 
 }
