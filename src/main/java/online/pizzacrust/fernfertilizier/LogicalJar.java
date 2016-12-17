@@ -6,6 +6,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.jar.JarFile;
 
+import online.pizzacrust.fernfertilizier.filter.DefaultDoubleFilter;
+import online.pizzacrust.fernfertilizier.filter.DefaultFloatFilter;
+import online.pizzacrust.fernfertilizier.filter.DefaultIntegerFilter;
+import online.pizzacrust.fernfertilizier.filter.DefaultStringFilter;
+
 public class LogicalJar {
 
     private final ClassFile[] classes;
@@ -30,11 +35,11 @@ public class LogicalJar {
         return classFileList.toArray(new ClassFile[classFileList.size()]);
     }
 
-    public enum StandardFilter { //TODO after filters are completed, put them here
-        INTEGER(null),
-        FLOAT(null),
-        DOUBLE(null),
-        STRING(null);
+    public enum StandardFilter {
+        INTEGER(new DefaultIntegerFilter()),
+        FLOAT(new DefaultFloatFilter()),
+        DOUBLE(new DefaultDoubleFilter()),
+        STRING(new DefaultStringFilter());
 
         private final ClassFilter theClass;
 
