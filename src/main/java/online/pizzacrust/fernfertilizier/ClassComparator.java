@@ -32,7 +32,7 @@ public class ClassComparator {
     public boolean compare() {
         Integer[] newInts = newClass.filter(StandardFilter.INTEGER);
         Integer[] oldInts = oldClass.filter(StandardFilter.INTEGER);
-        if (newInts.length == 0) {
+        if (newInts.length > 0) {
             diffMap.setNotApplicable(StandardFilter.INTEGER);
         } else if (oldInts.length > 0) {
             ArrayPercentageCalculator<Integer> intCalculator = new ArrayPercentageCalculator<>
@@ -43,7 +43,7 @@ public class ClassComparator {
         }
         Double[] newDoubles = newClass.filter(StandardFilter.DOUBLE);
         Double[] oldDoubles = oldClass.filter(StandardFilter.DOUBLE);
-        if (newDoubles.length == 0) {
+        if (newDoubles.length > 0) {
             diffMap.setNotApplicable(StandardFilter.DOUBLE);
         } else if (oldDoubles.length > 0) {
             ArrayPercentageCalculator<Double> doubleCalculator = new ArrayPercentageCalculator<>
@@ -54,12 +54,25 @@ public class ClassComparator {
         }
         Float[] newFloats = newClass.filter(StandardFilter.FLOAT);
         Float[] oldFloats = oldClass.filter(StandardFilter.FLOAT);
-        if (newFloats.length == 0) {
+        if (newFloats.length > 0) {
+            diffMap.setNotApplicable(StandardFilter.FLOAT);
+        } else if (oldFloats.length > 0) {
             ArrayPercentageCalculator<Float> floatCalculator = new ArrayPercentageCalculator<>
                     (toArray(newFloats), toArray(oldFloats));
             diffMap.set(StandardFilter.FLOAT, floatCalculator.calculate());
         } else {
             diffMap.setNotApplicable(StandardFilter.FLOAT);
+        }
+        String[] newStrings = newClass.filter(StandardFilter.STRING);
+        String[] oldStrings = oldClass.filter(StandardFilter.STRING);
+        if (newStrings.length > 0) {
+            diffMap.setNotApplicable(StandardFilter.STRING);
+        } else if (oldStrings.length > 0){
+            ArrayPercentageCalculator<String> stringCalculator = new ArrayPercentageCalculator<>
+                    (toArray(newStrings), toArray(oldStrings));
+            diffMap.set(StandardFilter.STRING, stringCalculator.calculate());
+        } else {
+            diffMap.setNotApplicable(StandardFilter.STRING);
         }
     }
 
