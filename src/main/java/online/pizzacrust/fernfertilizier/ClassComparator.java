@@ -1,5 +1,7 @@
 package online.pizzacrust.fernfertilizier;
 
+import com.sun.corba.se.impl.oa.toa.TOA;
+
 import java.util.ArrayList;
 
 import online.pizzacrust.fernfertilizier.LogicalJar.StandardFilter;
@@ -32,21 +34,33 @@ public class ClassComparator {
         Integer[] oldInts = oldClass.filter(StandardFilter.INTEGER);
         if (newInts.length == 0) {
             diffMap.setNotApplicable(StandardFilter.INTEGER);
-        } else {
+        } else if (oldInts.length > 0) {
             ArrayPercentageCalculator<Integer> intCalculator = new ArrayPercentageCalculator<>
                     (toArray(newInts), toArray(oldInts));
             diffMap.set(StandardFilter.INTEGER, intCalculator.calculate());
+        } else {
+            diffMap.setNotApplicable(StandardFilter.INTEGER);
         }
         Double[] newDoubles = newClass.filter(StandardFilter.DOUBLE);
         Double[] oldDoubles = oldClass.filter(StandardFilter.DOUBLE);
         if (newDoubles.length == 0) {
             diffMap.setNotApplicable(StandardFilter.DOUBLE);
-        } else {
+        } else if (oldDoubles.length > 0) {
             ArrayPercentageCalculator<Double> doubleCalculator = new ArrayPercentageCalculator<>
                     (toArray(newDoubles), toArray(oldDoubles));
             diffMap.set(StandardFilter.DOUBLE, doubleCalculator.calculate());
+        } else {
+            diffMap.setNotApplicable(StandardFilter.DOUBLE);
         }
-
+        Float[] newFloats = newClass.filter(StandardFilter.FLOAT);
+        Float[] oldFloats = oldClass.filter(StandardFilter.FLOAT);
+        if (newFloats.length == 0) {
+            ArrayPercentageCalculator<Float> floatCalculator = new ArrayPercentageCalculator<>
+                    (toArray(newFloats), toArray(oldFloats));
+            diffMap.set(StandardFilter.FLOAT, floatCalculator.calculate());
+        } else {
+            diffMap.setNotApplicable(StandardFilter.FLOAT);
+        }
     }
 
 }
