@@ -16,6 +16,15 @@ public class ClassFile {
     private final CtClass assistClass;
     private final String jvmName;
 
+    public String getJvmName() {
+        return jvmName;
+    }
+
+    @Override
+    public String toString() {
+        return getJvmName();
+    }
+
     public ClassFile(String jvmName, InputStream inputStream) {
         try {
             this.assistClass = ClassPool.getDefault().makeClass(inputStream);

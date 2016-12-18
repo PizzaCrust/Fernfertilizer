@@ -15,6 +15,10 @@ public class LogicalJar {
 
     private final ClassFile[] classes;
 
+    public ClassFile[] getClasses() {
+        return classes;
+    }
+
     public LogicalJar(ClassFile[] classes) {
         this.classes = classes;
     }
