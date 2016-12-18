@@ -23,6 +23,10 @@ public class Main {
         parser.acceptsAll(toList("passgrade", "percentage", "p", "pg", "g", "grade"), "Sets the" +
                 " passing grade.").withRequiredArg().ofType(Integer.class).required();
         OptionSet arguments = parser.parse(args);
+        if (arguments.has("help")) {
+            parser.printHelpOn(System.out);
+            return;
+        }
         File originalJar = (File) arguments.valueOf("original");
         File newJar = (File) arguments.valueOf("new");
         if (arguments.has("passgrade")) {
