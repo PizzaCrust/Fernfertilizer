@@ -50,7 +50,7 @@ public class FieldMatcher {
 
     public void appendTo(SRGFDWriter writer) {
         generateMappings();
-        for (Map.Entry<String, String> entry : this.fieldMappings) {
+        for (Map.Entry<String, String> entry : this.fieldMappings.entrySet()) {
             writer.onRequestedWrite(entry.getKey(), entry.getValue());
         }
         try {
