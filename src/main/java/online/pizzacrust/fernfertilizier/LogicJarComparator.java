@@ -22,13 +22,27 @@ public class LogicJarComparator {
         this.newJar = newJar;
     }
 
+    public static boolean keyContains(Map<String, String> map, String name) {
+        for (Map.Entry<String, String> entry : map.entrySet()) {
+            if (entry.getValue().equals(name)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public void generateMappings() {
         mappings.clear();
         for (ClassFile newClass : newJar.getClasses()) {
             for (ClassFile oldClass : originalJar.getClasses()) {
                 ClassComparator classComparator = new ClassComparator(newClass, oldClass);
                 if (classComparator.compare()) {
-                    mappings.put(newClass.getJvmName(), oldClass.getJvmName());
+                    if (!keyContains(mappings, oldClass.getJvmName())) {
+                        mappings.put(newClass.getJvmName(), oldClass.getJvmName());
+                    } else {
+                        System.out.println("Conflict detected: " + newClass.getJvmName() + " is " +
+                                "attempting to be a " + oldClass.getJvmName());
+                    }
                     break;
                 }
             }
