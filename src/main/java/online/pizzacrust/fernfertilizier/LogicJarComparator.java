@@ -66,7 +66,7 @@ public class LogicJarComparator {
 
             @Override
             public void onRequestedWrite(String newJvmName, String oldJvmName) {
-                strings.add("CL: ".concat(newJvmName).concat(" ").concat(oldJvmName));
+                strings.add("CL: ".concat(newJvmName).concat(" ").concat(oldJvmName) + "\n");
             }
 
             @Override

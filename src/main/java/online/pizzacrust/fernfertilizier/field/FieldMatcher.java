@@ -2,7 +2,9 @@ package online.pizzacrust.fernfertilizier.field;
 
 import javassist.CtField;
 
+import java.io.IOException;
 import java.util.HashMap;
+import java.util.Map;
 
 import online.pizzacrust.fernfertilizier.ClassFile;
 
@@ -43,6 +45,18 @@ public class FieldMatcher {
                     }
                 }
             }
+        }
+    }
+
+    public void appendTo(SRGFDWriter writer) {
+        generateMappings();
+        for (Map.Entry<String, String> entry : this.fieldMappings) {
+            writer.onRequestedWrite(entry.getKey(), entry.getValue());
+        }
+        try {
+            writer.onRequestedClose();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
