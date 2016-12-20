@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import online.pizzacrust.fernfertilizier.ClassFile;
+import online.pizzacrust.fernfertilizier.LogicalJar;
 
 //TODO
 public class RemappedClass {
@@ -35,6 +36,14 @@ public class RemappedClass {
             arrayList.add(new RemappedField(field, this.mappings));
         }
         return arrayList;
+    }
+
+    public static RemappedClass[] from(Map<String, String> mappings, LogicalJar jar) {
+        List<RemappedClass> classes = new ArrayList<>();
+        for (ClassFile classFile : jar.getClasses()) {
+            classes.add(new RemappedClass(classFile, mappings));
+        }
+        return classes.toArray(new RemappedClass[classes.size()]);
     }
 
 }

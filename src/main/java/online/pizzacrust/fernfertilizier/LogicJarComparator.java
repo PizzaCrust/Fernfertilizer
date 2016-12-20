@@ -22,6 +22,10 @@ public class LogicJarComparator {
         this.newJar = newJar;
     }
 
+    public Map<String, String> getMappings() {
+        return mappings;
+    }
+
     public static boolean keyContains(Map<String, String> map, String name) {
         for (Map.Entry<String, String> entry : map.entrySet()) {
             if (entry.getValue().equals(name)) {
