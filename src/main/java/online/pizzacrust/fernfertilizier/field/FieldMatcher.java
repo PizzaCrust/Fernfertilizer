@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import online.pizzacrust.fernfertilizier.ClassFile;
+import online.pizzacrust.fernfertilizier.LogicJarComparator;
 
 public class FieldMatcher {
 
@@ -33,13 +34,26 @@ public class FieldMatcher {
                                     (field1.getRemappedDescriptor())) {
                                 if (SAME_MODIFIERS) {
                                     if (field.getModifiers() != field1.getField().getModifiers()) {
-                                        break;
+                                        continue;
                                     }
                                 }
-                                fieldMappings.put(field1.getField().getDeclaringClass().getName()
-                                        .replace('.', '/') + "/" + field1.getField().getName(),
-                                        field.getDeclaringClass().getName().replace('.', '/') +
-                                                "/" + field.getName());
+                                if (!LogicJarComparator.keyContains(fieldMappings, field
+                                        .getDeclaringClass().getName().replace('.', '/') +
+                                        "/" + field.getName())) {
+                                    System.out.println("Field detected: " + field1.getField()
+                                            .getDeclaringClass().getName() + "." + field1.getField()
+                                            .getName() + " is " + field.getDeclaringClass().getName()
+                                            + "." + field.getName());
+                                    fieldMappings.put(field1.getField().getDeclaringClass().getName()
+                                                    .replace('.', '/') + "/" + field1.getField().getName(),
+                                            field.getDeclaringClass().getName().replace('.', '/') +
+                                                    "/" + field.getName());
+                                } else {
+                                    System.out.println("Field conflict: " + field1.getField()
+                                            .getDeclaringClass().getName() + "." + field1.getField()
+                                            .getName() + " is " + field.getDeclaringClass().getName()
+                                            + "." + field.getName());
+                                }
                             }
                         }
                     }
