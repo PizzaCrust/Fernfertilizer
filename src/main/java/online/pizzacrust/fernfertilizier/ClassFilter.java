@@ -22,24 +22,25 @@ public interface ClassFilter {
             }
             return false;
         }
-        public static <TYPE> List<TYPE> list(CtClass ctClass, PrimitiveType tag) {
-            ArrayList<TYPE> types = new ArrayList<>();
+        public static List list(CtClass ctClass, PrimitiveType tag) {
+            ArrayList types = new ArrayList<>();
             ConstPool constantPool = ctClass.getClassFile().getConstPool();
             int index = 1;
             while (index < constantPool.getSize()) {
                 if (constantPool.getTag(index) == tag.getTag()) {
                     switch (tag) {
                         case INTEGER:
-                            types.add((TYPE) (Integer)constantPool.getIntegerInfo(index));
+                            types.add(constantPool.getIntegerInfo(index));
                             break;
                         case DOUBLE:
-                            types.add((TYPE) (Double) constantPool.getDoubleInfo(index));
+                            types.add(constantPool.getDoubleInfo(index));
                             break;
                         case FLOAT:
-                            types.add((TYPE) (Float) constantPool.getFloatInfo(index));
+                            types.add(constantPool.getFloatInfo(index));
                             break;
                         case STRING:
-                            types.add((TYPE) (String) constantPool.getStringInfo(index));
+                            types.add(constantPool.getStringInfo(index));
+                            break;
                     }
                 }
                 index++;

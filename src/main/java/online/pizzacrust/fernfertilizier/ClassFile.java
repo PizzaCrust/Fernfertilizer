@@ -35,12 +35,45 @@ public class ClassFile {
         this.jvmName = jvmName;
     }
 
-    public <TYPE> TYPE[] filter(TypeFilter<TYPE> filter) {
+    public Object[] filter(TypeFilter filter) {
         return filter.searchFiltered(this);
     }
 
-    public <TYPE> TYPE[] filter(LogicalJar.StandardFilter filter) {
-        return (TYPE[]) filter(filter.getTypeFilter());
+     public Object[] filter(LogicalJar.StandardFilter filter) {
+        Object[] objects = filter(filter.getTypeFilter());
+        if (objects.length == 0) {
+            switch (filter) {
+                case STRING:
+                    objects = new String[0];
+                    break;
+                case FLOAT:
+                    objects = new Float[0];
+                    break;
+                case DOUBLE:
+                    objects = new Double[0];
+                    break;
+                case INTEGER:
+                    objects = new Integer[0];
+                    break;
+            }
+        }
+        if (objects.getClass() == Object[].class) {
+            switch (filter) {
+                case STRING:
+                    objects = new String[0];
+                    break;
+                case FLOAT:
+                    objects = new Float[0];
+                    break;
+                case DOUBLE:
+                    objects = new Double[0];
+                    break;
+                case INTEGER:
+                    objects = new Integer[0];
+                    break;
+            }
+        }
+        return objects;
     }
 
     public static ClassFile[] processClasses(JarFile jarFile) {
@@ -58,6 +91,15 @@ public class ClassFile {
                 }
             }
         }
+        List<ClassFile> toRemove = new ArrayList<>();
+        for (ClassFile classFile : classFileList) {
+            if (classFile.getJvmName().contains("$")) {
+                System.out.println("Alert: " + classFile.getJvmName() + " is a subclass and " +
+                        "subclasses cannot be processed due to similarity errors.");
+                toRemove.add(classFile);
+            }
+        }
+        classFileList.removeAll(toRemove);
         return classFileList.toArray(new ClassFile[classFileList.size()]);
     }
 

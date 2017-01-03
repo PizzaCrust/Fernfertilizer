@@ -42,6 +42,8 @@ public class LogicJarComparator {
                 ClassComparator classComparator = new ClassComparator(newClass, oldClass);
                 if (classComparator.compare()) {
                     if (!keyContains(mappings, oldClass.getJvmName())) {
+                        System.out.println("Mapping detected: " + newClass.getJvmName() + " to "
+                                + oldClass.getJvmName());
                         mappings.put(newClass.getJvmName(), oldClass.getJvmName());
                     } else {
                         System.out.println("Conflict detected: " + newClass.getJvmName() + " is " +
@@ -76,7 +78,7 @@ public class LogicJarComparator {
             @Override
             public void onRequestedClose() throws IOException {
                 Files.write(targetFile.toPath(), strings, Charset.defaultCharset(),
-                        StandardOpenOption.TRUNCATE_EXISTING);
+                        StandardOpenOption.TRUNCATE_EXISTING, StandardOpenOption.CREATE);
             }
 
         }

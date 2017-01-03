@@ -32,49 +32,41 @@ public class ClassComparator {
     }
 
     public boolean compare() {
-        Integer[] newInts = newClass.filter(StandardFilter.INTEGER);
-        Integer[] oldInts = oldClass.filter(StandardFilter.INTEGER);
-        if (newInts.length > 0) {
+        Integer[] newInts = (Integer[]) newClass.filter(StandardFilter.INTEGER);
+        Integer[] oldInts = (Integer[]) oldClass.filter(StandardFilter.INTEGER);
+        if (oldInts.length < 0 || newInts.length < 0) {
             diffMap.setNotApplicable(StandardFilter.INTEGER);
-        } else if (oldInts.length > 0) {
+        } else {
             ArrayPercentageCalculator<Integer> intCalculator = new ArrayPercentageCalculator<>
                     (toArray(newInts), toArray(oldInts));
             diffMap.set(StandardFilter.INTEGER, intCalculator.calculate());
-        } else {
-            diffMap.setNotApplicable(StandardFilter.INTEGER);
         }
-        Double[] newDoubles = newClass.filter(StandardFilter.DOUBLE);
-        Double[] oldDoubles = oldClass.filter(StandardFilter.DOUBLE);
-        if (newDoubles.length > 0) {
+        Double[] newDoubles = (Double[]) newClass.filter(StandardFilter.DOUBLE);
+        Double[] oldDoubles = (Double[]) oldClass.filter(StandardFilter.DOUBLE);
+        if (oldDoubles.length < 0 || newDoubles.length< 0) {
             diffMap.setNotApplicable(StandardFilter.DOUBLE);
-        } else if (oldDoubles.length > 0) {
+        } else {
             ArrayPercentageCalculator<Double> doubleCalculator = new ArrayPercentageCalculator<>
                     (toArray(newDoubles), toArray(oldDoubles));
             diffMap.set(StandardFilter.DOUBLE, doubleCalculator.calculate());
-        } else {
-            diffMap.setNotApplicable(StandardFilter.DOUBLE);
         }
-        Float[] newFloats = newClass.filter(StandardFilter.FLOAT);
-        Float[] oldFloats = oldClass.filter(StandardFilter.FLOAT);
-        if (newFloats.length > 0) {
+        Float[] newFloats = (Float[]) newClass.filter(StandardFilter.FLOAT);
+        Float[] oldFloats = (Float[]) oldClass.filter(StandardFilter.FLOAT);
+        if (oldFloats.length < 0 || newFloats.length < 0) {
             diffMap.setNotApplicable(StandardFilter.FLOAT);
-        } else if (oldFloats.length > 0) {
+        } else {
             ArrayPercentageCalculator<Float> floatCalculator = new ArrayPercentageCalculator<>
                     (toArray(newFloats), toArray(oldFloats));
             diffMap.set(StandardFilter.FLOAT, floatCalculator.calculate());
-        } else {
-            diffMap.setNotApplicable(StandardFilter.FLOAT);
         }
-        String[] newStrings = newClass.filter(StandardFilter.STRING);
-        String[] oldStrings = oldClass.filter(StandardFilter.STRING);
-        if (newStrings.length > 0) {
+        String[] newStrings = (String[]) newClass.filter(StandardFilter.STRING);
+        String[] oldStrings = (String[]) oldClass.filter(StandardFilter.STRING);
+        if (oldStrings.length < 0 || newStrings.length < 0) {
             diffMap.setNotApplicable(StandardFilter.STRING);
-        } else if (oldStrings.length > 0){
+        } else {
             ArrayPercentageCalculator<String> stringCalculator = new ArrayPercentageCalculator<>
                     (toArray(newStrings), toArray(oldStrings));
             diffMap.set(StandardFilter.STRING, stringCalculator.calculate());
-        } else {
-            diffMap.setNotApplicable(StandardFilter.STRING);
         }
 
         int passes = 0;
@@ -98,7 +90,20 @@ public class ClassComparator {
                 passes++;
             }
         }
-        Double percentage = ((double) passes / (double) 10) * (double) 100;
+        int possiblePasses = 0;
+        if (diffMap.isApplicable(StandardFilter.INTEGER)) {
+            possiblePasses++;
+        }
+        if (diffMap.isApplicable(StandardFilter.STRING)) {
+            possiblePasses++;
+        }
+        if (diffMap.isApplicable(StandardFilter.DOUBLE)) {
+            possiblePasses++;
+        }
+        if (diffMap.isApplicable(StandardFilter.FLOAT)) {
+            possiblePasses++;
+        }
+        Double percentage = ((double) passes / (double) possiblePasses) * (double) 100;
         if (percentage.intValue() >= PASSING_PERCENTAGE) {
             return true;
         }

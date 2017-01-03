@@ -40,16 +40,21 @@ public class LogicalJar {
     }
 
     public enum StandardFilter {
-        INTEGER(new DefaultIntegerFilter()),
-        FLOAT(new DefaultFloatFilter()),
-        DOUBLE(new DefaultDoubleFilter()),
-        STRING(new DefaultStringFilter());
+        INTEGER(new DefaultIntegerFilter(), Integer.class),
+        FLOAT(new DefaultFloatFilter(), Float.class),
+        DOUBLE(new DefaultDoubleFilter(), Double.class),
+        STRING(new DefaultStringFilter(), String.class);
 
         private final ClassFilter theClass;
+        private final Class<?> typeClass;
 
-        StandardFilter(ClassFilter theClass) {
-            this.theClass = theClass;
+        StandardFilter(ClassFilter theClass, Class<?> typeClass) {
+            this.typeClass = typeClass; this.theClass =
+                    theClass;
         }
+
+
+        public Class<?> getTypeClass() { return typeClass; }
 
         public ClassFilter getFilterClass() {
             return theClass;
